@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: 8595e00b3fd6d5741abb669950dc8f95
+guid: 60556bcce7dbe2746aa87f723f32f3c9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8399173865345685170
-    second: Clouds6_0
+      213: -4858769026256109518
+    second: Run_TurnAround_0
   - first:
-      213: 364548197330186379
-    second: Clouds6_1
+      213: 1092401777895686317
+    second: Run_TurnAround_1
   - first:
-      213: -1685486299041851594
-    second: Clouds6_2
+      213: 6457050412057434824
+    second: Run_TurnAround_2
   - first:
-      213: 3152578562668836289
-    second: Clouds6_3
+      213: -7255226438231225271
+    second: Run_TurnAround_3
+  - first:
+      213: 3517583455000709017
+    second: Run_TurnAround_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -60,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -148,13 +151,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Clouds6_0
+      name: Run_TurnAround_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 115
-        width: 155
-        height: 54
+        x: 30
+        y: 14
+        width: 19
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e496355ced3207b80800000000000000
-      internalID: -8399173865345685170
+      spriteID: 2308550405f229cb0800000000000000
+      internalID: -4858769026256109518
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clouds6_1
+      name: Run_TurnAround_1
       rect:
         serializedVersion: 2
-        x: 137
-        y: 97
-        width: 279
-        height: 95
+        x: 108
+        y: 14
+        width: 21
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,20 +188,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b80ff5d67a22f0500800000000000000
-      internalID: 364548197330186379
+      spriteID: da04a7311adf82f00800000000000000
+      internalID: 1092401777895686317
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clouds6_2
+      name: Run_TurnAround_2
       rect:
         serializedVersion: 2
-        x: 479
-        y: 122
-        width: 7
-        height: 7
+        x: 190
+        y: 14
+        width: 19
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,20 +210,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 63792df1423fb98e0800000000000000
-      internalID: -1685486299041851594
+      spriteID: 8ca197b832d0c9950800000000000000
+      internalID: 6457050412057434824
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clouds6_3
+      name: Run_TurnAround_3
       rect:
         serializedVersion: 2
-        x: 486
-        y: 121
-        width: 26
-        height: 16
+        x: 273
+        y: 14
+        width: 19
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,8 +232,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c5336aef7530cb20800000000000000
-      internalID: 3152578562668836289
+      spriteID: 94c84388ef1405b90800000000000000
+      internalID: -7255226438231225271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Run_TurnAround_4
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 14
+        width: 21
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 997cb1fe387f0d030800000000000000
+      internalID: 3517583455000709017
       vertices: []
       indices: 
       edges: []
@@ -249,10 +274,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Clouds6_0: -8399173865345685170
-      Clouds6_1: 364548197330186379
-      Clouds6_2: -1685486299041851594
-      Clouds6_3: 3152578562668836289
+      Run_TurnAround_0: -4858769026256109518
+      Run_TurnAround_1: 1092401777895686317
+      Run_TurnAround_2: 6457050412057434824
+      Run_TurnAround_3: -7255226438231225271
+      Run_TurnAround_4: 3517583455000709017
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
