@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private float _dashDuration;
     private float _currentTime;
     private bool _isDashing;
-
     private void Awake()
     {
         _rb2d = GetComponent<Rigidbody2D>();
@@ -42,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _rb2d.velocity = new Vector2(moveDir.x * _movementSpeed, _rb2d.velocity.y);
-
         //_rb2d.linearVelocity = new Vector2(moveDir.x * _movementSpeed, _rb2d.linearVelocity.y);
     }
 

@@ -9,6 +9,7 @@ public class PlayerInputs : MonoBehaviour
     public event Action OnInteract;
     public event Action OnJump;
     public event Action OnDash;
+    public event Action OnMoveCanceled;
 
     private void Awake()
     {
@@ -17,6 +18,12 @@ public class PlayerInputs : MonoBehaviour
         _inputs.Player.Interact.performed += Interact_performed;
         _inputs.Player.Jump.performed += Jump_performed;
         _inputs.Player.Dash.performed += Dash_performed;
+        _inputs.Player.Move.canceled += Move_canceled;
+    }
+
+    private void Move_canceled(InputAction.CallbackContext context)
+    {
+        OnMoveCanceled?.Invoke();
     }
 
     private void Interact_performed(InputAction.CallbackContext context)

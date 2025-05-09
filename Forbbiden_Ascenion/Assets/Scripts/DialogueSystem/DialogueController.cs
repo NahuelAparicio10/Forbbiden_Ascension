@@ -53,7 +53,6 @@ public class DialogueController : MonoBehaviour
         _indexDialogue = 0;
         _dialogueHolder.SetActive(false);
         _actions.Player.Interact.performed -= NextDialogue_performed;
-
     }
 
     private void EnableInputs()

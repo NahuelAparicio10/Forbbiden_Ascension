@@ -12,15 +12,13 @@ public class PlayerAnimations : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
         
     }
+    public bool IsJumping => animator.GetBool("IsJumping");
+    public void SetIsGrounded(bool isGrounded) => animator.SetBool("IsGrounded", isGrounded);
 
     public void FallingAnimation()
     {

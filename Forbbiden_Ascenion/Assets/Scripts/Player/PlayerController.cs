@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private DialogueController _dialogueController;
 
     public bool isTalking;
-
     private void Awake()
     {
         _movement = GetComponent<PlayerMovement>();
@@ -25,24 +24,34 @@ public class PlayerController : MonoBehaviour
         _inputs.OnDash += DashAction;
         _inputs.OnInteract += InteractAction;
         _inputs.OnJump += JumpAction;
-        _groundDetector.OnGroundChanged += GroundChanged;
+        _inputs.OnMoveCanceled += MoveCanceled;
         _dialogueController.DialogueStarted += OnDialogueStarted;
         _dialogueController.DialogueEnded += OnDialogueEnded;
         isTalking = false;
     }
 
-    private void OnDialogueEnded() => isTalking = false;
-    private void OnDialogueStarted() => isTalking = true;
-
-    private void GroundChanged(bool isGrounded)
+    private void MoveCanceled()
     {
+        _movement.ResetVelocity();
+    }
+
+    private void OnDialogueEnded()
+    {
+        isTalking = false;
+    }
+
+    private void OnDialogueStarted()
+    {
+        _movement.ResetVelocity();
+        isTalking = true;
     }
 
     private void JumpAction()
     {
-        if (isTalking) return;
+        if (isTalking || !_groundDetector.IsGrounded) return;
 
-        //_animations.JumpAnimation();
+        _animations.JumpAnimation();
+
         _movement.Jump();
     }
 
@@ -62,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (isTalking) return;
+        if (isTalking) return;        
 
         if (_inputs.MoveDir().sqrMagnitude > 0.01f)
         {
@@ -76,18 +85,16 @@ public class PlayerController : MonoBehaviour
         else
         {
             _animations.MoveAnimation(false);
+        }       
+    }
 
-            if (!_groundDetector.IsGrounded) return;
-            
-            _movement.ResetVelocity();
-        }
-
-        
+    private void FixedUpdate()
+    {
+        _animations.SetIsGrounded(_groundDetector.IsGrounded);
     }
 
     private void OnDestroy()
     {
-        _groundDetector.OnGroundChanged -= GroundChanged;
         _dialogueController.DialogueStarted -= OnDialogueStarted;
         _dialogueController.DialogueEnded -= OnDialogueEnded;
     }
