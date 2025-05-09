@@ -32,7 +32,8 @@ public class PlayerController : MonoBehaviour
 
     private void MoveCanceled()
     {
-        _movement.ResetVelocity();
+        if(_groundDetector.IsGrounded)
+            _movement.ResetVelocity();
     }
 
     private void OnDialogueEnded()
@@ -58,39 +59,34 @@ public class PlayerController : MonoBehaviour
     private void InteractAction()
     {
         if(isTalking) return;
-
-        throw new NotImplementedException();
+        Debug.Log("Interacted");
     }
 
     private void DashAction()
     {
         if (isTalking) return;
-
-        _movement.Dash(_inputs.MoveDir());
+        _movement.Dash(_inputs.IsMoving(), _inputs.MoveDir());
     }
 
     void Update()
     {
-        if (isTalking) return;        
+        _animations.SetIsGrounded(_groundDetector.IsGrounded);
+    }
 
-        if (_inputs.MoveDir().sqrMagnitude > 0.01f)
+    private void FixedUpdate()
+    {
+        if (isTalking) return;
+
+        if (_inputs.IsMoving())
         {
-            float dirX = _inputs.MoveDir().x;
-
             _animations.MoveAnimation(true);
-            _animations.FlipSprite(dirX);
-
+            _animations.FlipSprite(_inputs.MoveDir().x);
             _movement.Move(_inputs.MoveDir());
         }
         else
         {
             _animations.MoveAnimation(false);
-        }       
-    }
-
-    private void FixedUpdate()
-    {
-        _animations.SetIsGrounded(_groundDetector.IsGrounded);
+        }
     }
 
     private void OnDestroy()

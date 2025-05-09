@@ -33,6 +33,8 @@ public class PlayerInputs : MonoBehaviour
 
     public Vector2 MoveDir() => _inputs.Player.Move.ReadValue<Vector2>().normalized;
 
+    public bool IsMoving() => MoveDir().normalized.x > 0.01f || MoveDir().normalized.x < -0.1f;
+
     private void Jump_performed(InputAction.CallbackContext context)
     {
         OnJump?.Invoke();
