@@ -31,10 +31,12 @@ public class PlayerMovement : MonoBehaviour
             
             if(_currentTime >= _dashDuration)
             {
+                _rb2d.gravityScale = _originalGravity;
                 _isDashing = false;
                 _currentTime = 0;
-                _rb2d.velocity = Vector2.zero;
+                //_rb2d.velocity = Vector2.zero;
             }
+            return;
         }
 
         if(_rb2d.velocity.y < 0)
@@ -65,9 +67,16 @@ public class PlayerMovement : MonoBehaviour
     public void Dash(bool isMoving, Vector2 moveDir)
     {
         if(_isDashing) return;
+        _rb2d.velocity = Vector2.zero;
 
+        _rb2d.gravityScale = 0;
         _isDashing = true;
         _currentTime = 0;
+
+        if(moveDir.y <= 0)
+        {
+            moveDir.y = 0;
+        }
 
         if(!isMoving)
         {

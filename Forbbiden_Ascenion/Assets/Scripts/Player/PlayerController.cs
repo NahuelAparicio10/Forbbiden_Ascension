@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private DialogueController _dialogueController;
 
     public bool isTalking;
+
+    public Vector2 currentCheckPoint;
+
     private void Awake()
     {
         _movement = GetComponent<PlayerMovement>();
