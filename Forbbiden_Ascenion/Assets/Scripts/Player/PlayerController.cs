@@ -7,12 +7,16 @@ public class PlayerController : MonoBehaviour
     private PlayerInputs _inputs;
     private PlayerAnimations _animations;
     [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private PlayerDie _die;
 
     private DialogueController _dialogueController;
 
     public bool isTalking;
 
     public Vector2 currentCheckPoint;
+
+    [SerializeField] private float coyoteTime = 0.15f;
+    private float coyoteTimer;
 
     private void Awake()
     {
@@ -24,19 +28,18 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        _die.OnDie += OnDead;
         _inputs.OnDash += DashAction;
         _inputs.OnInteract += InteractAction;
         _inputs.OnJump += JumpAction;
-        _inputs.OnMoveCanceled += MoveCanceled;
         _dialogueController.DialogueStarted += OnDialogueStarted;
         _dialogueController.DialogueEnded += OnDialogueEnded;
         isTalking = false;
     }
 
-    private void MoveCanceled()
+    private void OnDead()
     {
-        if(_groundDetector.IsGrounded)
-            _movement.ResetVelocity();
+        
     }
 
     private void OnDialogueEnded()
@@ -46,16 +49,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnDialogueStarted()
     {
-        _movement.ResetVelocity();
         isTalking = true;
     }
 
     private void JumpAction()
     {
-        if (isTalking || !_groundDetector.IsGrounded) return;
+        if (isTalking || coyoteTimer <= 0f) return;
 
         _animations.JumpAnimation();
-
+        GameManager.Instance.AddJump();
         _movement.Jump();
     }
 
@@ -68,12 +70,17 @@ public class PlayerController : MonoBehaviour
     private void DashAction()
     {
         if (isTalking) return;
-        _movement.Dash(_inputs.IsMoving(), _inputs.MoveDir());
+        _movement.Dash(_inputs.RawAxisX());
     }
 
     void Update()
     {
         _animations.SetIsGrounded(_groundDetector.IsGrounded);
+
+        if (_groundDetector.IsGrounded)
+            coyoteTimer = coyoteTime;
+        else
+            coyoteTimer -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -83,12 +90,16 @@ public class PlayerController : MonoBehaviour
         if (_inputs.IsMoving())
         {
             _animations.MoveAnimation(true);
-            _animations.FlipSprite(_inputs.MoveDir().x);
-            _movement.Move(_inputs.MoveDir());
+            _animations.FlipSprite(_inputs.RawAxisX());
+            _movement.Move(_inputs.RawAxisX());
         }
         else
         {
             _animations.MoveAnimation(false);
+            if(_groundDetector.IsGrounded && !_animations.IsJumping)
+            {
+                _movement.ResetVelocity();
+            }
         }
     }
 

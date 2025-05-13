@@ -1,21 +1,22 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _dashForce;
     [SerializeField] private float _customGravityScale;
     private float _originalGravity;
 
     private Rigidbody2D _rb2d;
     private Vector2 _lastMoveDir;
 
-    public float _dashDuration;
-    private float _currentTime;
-    private bool _isDashing;
-
-
+    [Header("Dash Variables")]
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private bool _isDashing;
+    [SerializeField] private float dashingPower = 24f;
+    [SerializeField] private float dashingTime = 0.2f;
+    [SerializeField] private float dashingCooldown = 1f;
 
     private void Awake()
     {
@@ -23,21 +24,9 @@ public class PlayerMovement : MonoBehaviour
         _originalGravity = _rb2d.gravityScale;
     }
 
-    private void Update()
-    {
-        if(_isDashing)
-        {
-            _currentTime += Time.deltaTime;
-            
-            if(_currentTime >= _dashDuration)
-            {
-                _rb2d.gravityScale = _originalGravity;
-                _isDashing = false;
-                _currentTime = 0;
-                //_rb2d.velocity = Vector2.zero;
-            }
-            return;
-        }
+    private void FixedUpdate()
+    {      
+        if(_isDashing)return;
 
         if(_rb2d.velocity.y < 0)
         {
@@ -50,46 +39,46 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public void Move(Vector2 moveDir)
+    public void Move(float horizontal)
     {
         if (_isDashing) return;
 
-        if(moveDir.sqrMagnitude > 0.01f)
-        {
-            _lastMoveDir = moveDir;
-        }
-
-        _rb2d.velocity = new Vector2(moveDir.x * _movementSpeed, _rb2d.velocity.y);
+        _rb2d.velocity = new Vector2(horizontal * _movementSpeed, _rb2d.velocity.y);
+        _lastMoveDir.x = horizontal;
     }
 
     public void Jump() => _rb2d.velocity = new Vector2(_rb2d.velocity.x, _jumpForce);
 
-    public void Dash(bool isMoving, Vector2 moveDir)
+    public void Dash(float horizontal)
     {
-        if(_isDashing) return;
-        _rb2d.velocity = Vector2.zero;
-
-        _rb2d.gravityScale = 0;
-        _isDashing = true;
-        _currentTime = 0;
-
-        if(moveDir.y <= 0)
-        {
-            moveDir.y = 0;
-        }
-
-        if(!isMoving)
-        {
-            moveDir = _lastMoveDir;
-        }
-        _rb2d.velocity = moveDir * _dashForce;
+        if (!canDash) return;
+        GameManager.Instance.AddDash();
+        StartCoroutine(DashCor(horizontal));
     }
-
-
     public void ResetVelocity()
     {
         if (_isDashing) return;
         _rb2d.velocity = Vector2.zero;
+    }
+    private IEnumerator DashCor(float horizontal)
+    {
+        canDash = false;
+        _isDashing = true;
+        float originalGravity = _rb2d.gravityScale;
+        _rb2d.gravityScale = 0f;
+        if(horizontal == 0)
+        {
+            _rb2d.velocity = new Vector2(_lastMoveDir.x * dashingPower, 0f);
+        }
+        else
+        {
+            _rb2d.velocity = new Vector2(horizontal * dashingPower, 0f);
+        }
+        yield return new WaitForSeconds(dashingTime);
+        _rb2d.gravityScale = originalGravity;
+        _isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 
 }

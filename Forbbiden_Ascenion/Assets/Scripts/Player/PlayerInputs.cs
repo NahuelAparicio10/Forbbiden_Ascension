@@ -9,7 +9,8 @@ public class PlayerInputs : MonoBehaviour
     public event Action OnInteract;
     public event Action OnJump;
     public event Action OnDash;
-    public event Action OnMoveCanceled;
+
+    private float _rawAxisHorizontal;
 
     private void Awake()
     {
@@ -18,22 +19,21 @@ public class PlayerInputs : MonoBehaviour
         _inputs.Player.Interact.performed += Interact_performed;
         _inputs.Player.Jump.performed += Jump_performed;
         _inputs.Player.Dash.performed += Dash_performed;
-        _inputs.Player.Move.canceled += Move_canceled;
     }
 
-    private void Move_canceled(InputAction.CallbackContext context)
+    private void Update()
     {
-        OnMoveCanceled?.Invoke();
+        _rawAxisHorizontal = Input.GetAxisRaw("Horizontal");
     }
+
+    public float RawAxisX() => _rawAxisHorizontal;
 
     private void Interact_performed(InputAction.CallbackContext context)
     {
         OnInteract?.Invoke();
     }
 
-    public Vector2 MoveDir() => _inputs.Player.Move.ReadValue<Vector2>().normalized;
-
-    public bool IsMoving() => MoveDir().normalized.x > 0.01f || MoveDir().normalized.x < -0.1f;
+    public bool IsMoving() => _rawAxisHorizontal > 0.01f || _rawAxisHorizontal < -0.1f;
 
     private void Jump_performed(InputAction.CallbackContext context)
     {

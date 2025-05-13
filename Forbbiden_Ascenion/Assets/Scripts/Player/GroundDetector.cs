@@ -5,6 +5,8 @@ public class GroundDetector : MonoBehaviour
     public ContactFilter2D contactFilter2D;
 
     [SerializeField] private Rigidbody2D _rb2d;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
 
-    public bool IsGrounded => _rb2d.IsTouching(contactFilter2D);
+    public bool IsGrounded => Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 }

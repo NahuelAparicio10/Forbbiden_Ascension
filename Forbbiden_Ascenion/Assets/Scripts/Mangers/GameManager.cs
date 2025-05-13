@@ -43,6 +43,30 @@ public class GameManager : MonoBehaviour
     {
         
     }
+    public int timesJumped;
+    public int timesTouchedCloud;
+    public int timesDashed;
+    public void AddJump()
+    {
+        timesJumped++;
+    }
+
+    public void AddCloudTouched()
+    {
+        timesTouchedCloud++;
+    }
+
+    public void AddDash()
+    {
+        timesDashed++;
+    }
+
+    public void ResetStadistics()
+    {
+        timesDashed = 0;
+        timesJumped = 0;
+        timesTouchedCloud = 0;
+    }
 
     public void PauseGame()
     {

@@ -16,12 +16,12 @@ public class BlinkingPlatform : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isTriggered && collision.collider.CompareTag("Player"))
+        if (!isTriggered && collision.CompareTag("Player"))
         {
             isTriggered = true;
+            GameManager.Instance.AddCloudTouched();
             StartCoroutine(BlinkAndDisappear());
         }
     }
@@ -29,20 +29,23 @@ public class BlinkingPlatform : MonoBehaviour
     IEnumerator BlinkAndDisappear()
     {
         float timer = 0f;
+        bool isWhite = true;
+
         while (timer < blinkDuration)
         {
-            sr.enabled = !sr.enabled;
+            sr.color = isWhite ? Color.black : Color.white;
+            isWhite = !isWhite;
             yield return new WaitForSeconds(blinkInterval);
             timer += blinkInterval;
         }
 
         sr.enabled = false;
         col.enabled = false;
-
         yield return new WaitForSeconds(disappearDuration);
 
         sr.enabled = true;
+        sr.color = Color.white; // Restaurar el color original
         col.enabled = true;
-        isTriggered = false; 
+        isTriggered = false;
     }
 }
