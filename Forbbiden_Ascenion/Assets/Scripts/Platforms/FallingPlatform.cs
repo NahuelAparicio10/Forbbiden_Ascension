@@ -27,13 +27,17 @@ public class FallingPlatform : MonoBehaviour
         {
             GameManager.Instance.AddCloudTouched();
             playerOnPlatform = true;
+            other.transform.SetParent(transform);
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
+        {
             playerOnPlatform = false;
+            other.transform.SetParent(null);
+        }
     }
 }
 

@@ -1,7 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerDialogue : MonoBehaviour
+public class DialogueInteractable : MonoBehaviour, IInteractable
 {
     public bool isBurstDialogue;
     public Enums.DialogueTypingType typingType;
@@ -17,14 +18,10 @@ public class TriggerDialogue : MonoBehaviour
         _dialogueController = FindFirstObjectByType<DialogueController>();
         _dialogueController.DialogueEnded += OnDialogueEnded;
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnInteract()
     {
-        if (other.CompareTag("PlayerInteractable"))
-        {
-            ShowDialogue();
-        }
+        ShowDialogue();
     }
-
 
     private void ShowDialogue()
     {
@@ -34,7 +31,7 @@ public class TriggerDialogue : MonoBehaviour
             OnDisableCollider();
         }
 
-        if(isBurstDialogue)
+        if (isBurstDialogue)
         {
             Destroy(gameObject);
         }
@@ -53,4 +50,6 @@ public class TriggerDialogue : MonoBehaviour
     {
         _dialogueController.DialogueEnded -= OnDialogueEnded;
     }
+
+
 }

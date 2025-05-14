@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class GameManager : MonoBehaviour
 
     public bool IsPaused => _isPaused;
 
+    public int timesJumped;
+    public int timesTouchedCloud;
+    public int timesDashed;
+
+    public event Action OnPlayAgain;
+
     private void Awake()
     {
         if (_instance == null)
@@ -36,16 +43,20 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        OnPlayAgain += PlayAgain;
     }
+
+    private void PlayAgain()
+    {
+        ResetStadistics();
+    }
+
+    public void InvokePlayAgain() => OnPlayAgain?.Invoke();
 
     void Update()
     {
         
     }
-    public int timesJumped;
-    public int timesTouchedCloud;
-    public int timesDashed;
     public void AddJump()
     {
         timesJumped++;
@@ -72,5 +83,10 @@ public class GameManager : MonoBehaviour
     {
         _isPaused = !_isPaused;
         Time.timeScale = _isPaused ? 0 : 1;
+    }
+
+    private void OnDestroy()
+    {
+        OnPlayAgain -= PlayAgain;
     }
 }

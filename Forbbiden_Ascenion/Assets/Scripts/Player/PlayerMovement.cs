@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed;
+    [SerializeField] private float _airSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _customGravityScale;
     private float _originalGravity;
@@ -39,11 +40,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public void Move(float horizontal)
+    public void Move(float horizontal, bool isGrounded)
     {
         if (_isDashing) return;
+        if(isGrounded)
+        {
+            _rb2d.velocity = new Vector2(horizontal * _movementSpeed, _rb2d.velocity.y);
+        }
+        else
+        {
+            _rb2d.velocity = new Vector2(horizontal * _airSpeed, _rb2d.velocity.y);
 
-        _rb2d.velocity = new Vector2(horizontal * _movementSpeed, _rb2d.velocity.y);
+        }
+
         _lastMoveDir.x = horizontal;
     }
 

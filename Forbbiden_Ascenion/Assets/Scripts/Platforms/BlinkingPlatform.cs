@@ -6,16 +6,11 @@ public class BlinkingPlatform : MonoBehaviour
     public float blinkDuration = 2f;       
     public float disappearDuration = 2f;   
 
-    public float blinkInterval = 0.2f;     
-
+    public float blinkInterval = 0.2f;
+    public GameObject go;
     [SerializeField]private SpriteRenderer sr;
-    private Collider2D col;
     private bool isTriggered = false;
 
-    void Awake()
-    {
-        col = GetComponent<Collider2D>();
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isTriggered && collision.CompareTag("Player"))
@@ -40,12 +35,12 @@ public class BlinkingPlatform : MonoBehaviour
         }
 
         sr.enabled = false;
-        col.enabled = false;
+        go.SetActive(false);
         yield return new WaitForSeconds(disappearDuration);
 
         sr.enabled = true;
-        sr.color = Color.white; // Restaurar el color original
-        col.enabled = true;
+        sr.color = Color.white;
+        go.SetActive(true);
         isTriggered = false;
     }
 }
