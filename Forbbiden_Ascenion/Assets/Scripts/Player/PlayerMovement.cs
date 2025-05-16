@@ -73,19 +73,18 @@ public class PlayerMovement : MonoBehaviour
     {
         canDash = false;
         _isDashing = true;
+        Vector2 originalVelocity = _rb2d.velocity;
         float originalGravity = _rb2d.gravityScale;
         _rb2d.gravityScale = 0f;
-        if(horizontal == 0)
-        {
-            _rb2d.velocity = new Vector2(_lastMoveDir.x * dashingPower, 0f);
-        }
-        else
-        {
-            _rb2d.velocity = new Vector2(horizontal * dashingPower, 0f);
-        }
+
+        float dir = horizontal == 0 ? _lastMoveDir.x : horizontal;
+        if (dir == 0) dir = 1f;
+
+            _rb2d.velocity = new Vector2(dir * dashingPower, 0f);
         yield return new WaitForSeconds(dashingTime);
         _rb2d.gravityScale = originalGravity;
         _isDashing = false;
+        _rb2d.velocity = new Vector2(originalVelocity.x, _rb2d.velocity.y);
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }

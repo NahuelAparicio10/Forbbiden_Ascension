@@ -34,6 +34,7 @@ public class DialogueController : MonoBehaviour
         _currentDialogue.AddRange(messages);
 
         _typeHandler.ShowMessage(_currentDialogue[_indexDialogue].text);
+        _indexDialogue++;
 
         DialogueStarted?.Invoke();
 
@@ -68,17 +69,24 @@ public class DialogueController : MonoBehaviour
     {
         if (_currentDialogue.Count <= 0 || Time.time < _nextInteractTime) return;
 
-        if (_indexDialogue < _currentDialogue.Count)
+        if (!_typeHandler.IsDialoguePrinted)
         {
-            _typeHandler.ShowMessage(_currentDialogue[_indexDialogue].text);
-            _currentDialogue[_indexDialogue].Invoke();
-            _indexDialogue++;
+            _typeHandler.FinishTypingImmediately();
         }
         else
         {
-            HideDialogueBox();
+            if (_indexDialogue < _currentDialogue.Count)
+            {
+                _typeHandler.ShowMessage(_currentDialogue[_indexDialogue].text);
+                _currentDialogue[_indexDialogue].Invoke();
+                _indexDialogue++;
+            }
+            else
+            {
+                HideDialogueBox();
+            }
         }
-        _nextInteractTime = Time.time + _interactCooldown;
 
+        _nextInteractTime = Time.time + _interactCooldown;
     }
 }
