@@ -22,6 +22,8 @@ public class PlayerAnimations : MonoBehaviour
 
     public void FallingAnimation()
     {
+        if (IsJumping) return;
+
         animator.CrossFade("Falling", 0.2f);
     }
 

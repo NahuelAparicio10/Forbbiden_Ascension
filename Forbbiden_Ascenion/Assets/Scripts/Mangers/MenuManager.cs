@@ -5,5 +5,15 @@ public class MenuManager : MonoBehaviour
 {
     public void ExitGame() => Application.Quit();
 
-    public void StartGame() => SceneManager.LoadScene(1);
+    public void StartGame()
+    {
+        if(GameManager.Instance.hasStartedGame)
+        {
+            SceneManager.LoadScene(2);
+        }
+
+        GameManager.Instance.hasStartedGame = true;
+        SceneManager.LoadScene(1);
+    }
+
 }

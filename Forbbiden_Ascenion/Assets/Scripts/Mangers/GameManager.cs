@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public int timesDashed;
 
     public event Action OnPlayAgain;
-
+    public bool hasStartedGame = false;
     private void Awake()
     {
         if (_instance == null)

@@ -18,9 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashingPower = 24f;
     [SerializeField] private float dashingTime = 0.2f;
     [SerializeField] private float dashingCooldown = 1f;
-
+    private TrailRenderer _trailRenderer;
     private void Awake()
     {
+        _trailRenderer = GetComponent<TrailRenderer>();
         _rb2d = GetComponent<Rigidbody2D>();
         _originalGravity = _rb2d.gravityScale;
     }
@@ -80,12 +81,17 @@ public class PlayerMovement : MonoBehaviour
         float dir = horizontal == 0 ? _lastMoveDir.x : horizontal;
         if (dir == 0) dir = 1f;
 
-            _rb2d.velocity = new Vector2(dir * dashingPower, 0f);
+        _rb2d.velocity = new Vector2(dir * dashingPower, 0f);
+        _trailRenderer.emitting = true;
         yield return new WaitForSeconds(dashingTime);
+        _trailRenderer.emitting = false;
+        
         _rb2d.gravityScale = originalGravity;
         _isDashing = false;
         _rb2d.velocity = new Vector2(originalVelocity.x, _rb2d.velocity.y);
+        
         yield return new WaitForSeconds(dashingCooldown);
+        
         canDash = true;
     }
 

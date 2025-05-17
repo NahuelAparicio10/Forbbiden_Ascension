@@ -51,9 +51,21 @@ public class PlayerController : MonoBehaviour
             coyoteTimer -= Time.deltaTime;
     }
 
+    public bool isFalling = false;
+
     private void FixedUpdate()
     {
         if (isTalking) return;
+
+        if(!_groundDetector.IsGrounded && !isFalling)
+        {
+            isFalling = true;
+           _animations.FallingAnimation();
+        }
+        if(_groundDetector.IsGrounded)
+        {
+            isFalling = false;
+        }
 
         if (_inputs.IsMoving())
         {
