@@ -12,6 +12,8 @@ public class CinematicDialogue : MonoBehaviour
 
     private DialogueController _dialogueController;
 
+    public bool isFinal = false;
+
     private void Awake()
     {
         _dialogueController = FindFirstObjectByType<DialogueController>();
@@ -20,7 +22,14 @@ public class CinematicDialogue : MonoBehaviour
 
     private void OnDialogueEnded()
     {
-        SceneManager.LoadScene(2);
+        if(isFinal)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     private void Start()

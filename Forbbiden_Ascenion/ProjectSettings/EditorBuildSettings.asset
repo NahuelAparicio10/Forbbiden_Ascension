@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level_Hell.unity
     guid: 0797717b084c1a14ebd31cd2b4456467
+  - enabled: 1
+    path: Assets/Scenes/LevelSky.unity
+    guid: 3bd76f8f6e96d2a48b10bb47874d8ea5
+  - enabled: 1
+    path: Assets/Scenes/CInematicFinal.unity
+    guid: 66f5acfb37deb044997c825bf8de0b2f
   m_configObjects: {}

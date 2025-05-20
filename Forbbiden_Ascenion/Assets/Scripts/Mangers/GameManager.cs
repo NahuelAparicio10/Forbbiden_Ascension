@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public int timesTouchedCloud;
     public int timesDashed;
 
+    public event Action OnCollectGem;
     public event Action OnPlayAgain;
     public bool hasStartedGame = false;
     private void Awake()
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
         OnPlayAgain += PlayAgain;
     }
 
+    public void InvokeCollectGem() => OnCollectGem?.Invoke();
     private void PlayAgain()
     {
         ResetStadistics();

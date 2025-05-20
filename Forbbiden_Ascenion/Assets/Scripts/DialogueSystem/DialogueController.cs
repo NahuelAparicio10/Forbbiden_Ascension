@@ -34,6 +34,7 @@ public class DialogueController : MonoBehaviour
         _currentDialogue.AddRange(messages);
 
         _typeHandler.ShowMessage(_currentDialogue[_indexDialogue].text);
+        _currentDialogue[_indexDialogue].Invoke();
         _indexDialogue++;
 
         DialogueStarted?.Invoke();
